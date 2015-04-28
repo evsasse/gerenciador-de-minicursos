@@ -4,18 +4,59 @@
 	padding: 0;
 }
 
-body{
-	background-color: #DDD;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 0.8em;
-	color: #444;
-}
-
 a{
 	color: inherit;
+}
+
+h1, h2, h3, h4, h5, h6{
+	font-weight: inherit;
+}
+
+body{
+	background-color: #EEE;
+	font-family: 'Roboto', Arial, sans-serif;
+	font-size: 0.8em;
+	color: #444;
 }
 
 input{
 	border: 0;
 	padding: 0.5em;
+	margin-top: 3px;
+	display: block;
+	background-color: #FAFAFA;
+}
+
+form{
+	margin: 1em 0.5em;
+	padding: 0.5em;
+	background-color: #57F;
+	color: #FAFAFA;
+	display: inline-block;
+	max-width: 30em;
+}
+
+.content{
+	text-align: center;
+	max-width: 980px;
+	margin: 0 auto;
+}
+
+.header{
+	background-color: #FAFAFA;
+	padding: 1em;
+	text-align: right;
+}
+
+input,
+form,
+.header{
+	box-shadow: 0 0 2px #BBB;
+}
+
+input{
+	width: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }

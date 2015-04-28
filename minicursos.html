@@ -1,12 +1,13 @@
 <head>
   <title>Cadastro para Minicursos</title>
+  <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-  <div class="header box">
+  <div class="header">
     {{> loginButtons}}
   </div>
-  <div>
+  <div class="content">
   {{> formInscricao}}
   {{#if isAdmin}}
     {{> formNewCurso}}
@@ -17,20 +18,21 @@
 
 <template name="formInscricao">
   <form>
-      <input type="text" placeholder="Nome" required>
-      <input type="text" placeholder="CPF - 01234567890">
-      <input type="email" placeholder="Email">
+    <h2>Cadastro para Minicursos</h2>
+    <input type="text" placeholder="Nome" required>
+    <input type="text" placeholder="CPF - 01234567890">
+    <input type="email" placeholder="Email">
   </form>
 </template>
 
 <template name="formNewCurso">
   <form>
-    Banana<input type="text" value="Abacaxi">
+    <h2>Confirmação, Pagamento e Presença</h2>
   </form>
 </template>
 
 <template name="changeAdmin">
   <form>
-    Banana<input type="text" value="Abacaxi">
+    <h2>Administradores</h2>
   </form>
 </template>
