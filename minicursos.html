@@ -3,10 +3,10 @@
 </head>
 
 <body>
-  <div class="box contentright">
+  <div class="header box">
     {{> loginButtons}}
   </div>
-  <div class="container">
+  <div>
   {{> formInscricao}}
   {{#if isAdmin}}
     {{> formNewCurso}}
@@ -16,19 +16,21 @@
 </body>
 
 <template name="formInscricao">
-  <form class="box">
-    <p>Nome</p>
+  <form>
+      <input type="text" placeholder="Nome" required>
+      <input type="text" placeholder="CPF - 01234567890">
+      <input type="email" placeholder="Email">
   </form>
 </template>
 
 <template name="formNewCurso">
-  <form class="box">
+  <form>
     Banana<input type="text" value="Abacaxi">
   </form>
 </template>
 
 <template name="changeAdmin">
-  <form class="box">
+  <form>
     Banana<input type="text" value="Abacaxi">
   </form>
 </template>
