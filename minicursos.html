@@ -3,24 +3,32 @@
 </head>
 
 <body>
-  <h1>Cadastro para Minicursos</h1>
-  {{formInscricao}}
-  {{> loginButtons}}
-  {{userId}}
+  <div class="box contentright">
+    {{> loginButtons}}
+  </div>
+  <div class="container">
+  {{> formInscricao}}
   {{#if isAdmin}}
-    {{formNewCurso}}
-    {{changeAdmin}}
+    {{> formNewCurso}}
+    {{> changeAdmin}}
   {{/if}}
+  </div>
 </body>
 
 <template name="formInscricao">
-
+  <form class="box">
+    <p>Nome</p>
+  </form>
 </template>
 
 <template name="formNewCurso">
-
+  <form class="box">
+    Banana<input type="text" value="Abacaxi">
+  </form>
 </template>
 
 <template name="changeAdmin">
-
+  <form class="box">
+    Banana<input type="text" value="Abacaxi">
+  </form>
 </template>
