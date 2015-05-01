@@ -1,6 +1,7 @@
 <head>
   <title>Cadastro para Minicursos</title>
-  <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:500,700,400'
+    rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -11,18 +12,36 @@
   {{> formInscricao}}
   {{#if isAdmin}}
     {{> formNewCurso}}
-    {{> changeAdmin}}
+    {{> formAdmin}}
   {{/if}}
   </div>
 </body>
 
 <template name="formInscricao">
-  <form>
-    <h2>Cadastro para Minicursos</h2>
-    <input type="text" placeholder="Nome" required>
-    <input type="text" placeholder="CPF - 01234567890">
-    <input type="email" placeholder="Email">
-  </form>
+  {{#if cursos}}
+    <form>
+      <h2>Cadastro para Minicursos</h2>
+      <input type="text" placeholder="Nome" required>
+      <input type="text" placeholder="CPF - 01234567890" pattern="[0-9]{11}"
+        value="" title="Preencha no formato '12312312312', ou deixe em branco">
+      <input type="email" placeholder="Email" required>
+      <ul>
+        {{#each cursos}}
+          <li>
+          {{> cursoInscricao}}
+          </li>
+        {{/each}}
+      </ul>
+      {{> reCAPTCHA}}
+      <input type="submit" value="ENVIAR">
+    </form>
+  {{else}}
+    <h1>Não há minicursos disponíveis no momento :(</h1>
+  {{/if}}
+</template>
+
+<template name="cursoInscricao">
+  <label><input type="checkbox">{{nome}}</label>
 </template>
 
 <template name="formNewCurso">
@@ -31,8 +50,11 @@
   </form>
 </template>
 
-<template name="changeAdmin">
+<template name="formAdmin">
   <form>
     <h2>Administradores</h2>
+    {{#each users}}
+      {{_id}}
+    {{/each}}
   </form>
 </template>
