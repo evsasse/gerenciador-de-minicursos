@@ -11,6 +11,9 @@ a{
 
 h1, h2, h3, h4, h5, h6{
 	font-weight: inherit;
+}
+
+h1, h2{
 	margin: 0.5em;
 }
 
@@ -81,4 +84,26 @@ input{
 
 #recaptcha-container > div:first-child{
 	margin: 0.3em 0;
+}
+
+.users li{
+	background-color: rgba(255,255,255,0.3);
+	padding: 0.5em;
+	margin: 0.1em -0.5em;
+}
+.users li:hover{
+	background-color: rgba(255,255,255,0.2);
+}
+
+.additional_info{
+	color: #DDD;
+}
+
+.users li div{
+	display: inline-block;
+}
+
+.controls{
+	float: right;
+	margin: 0.5em 0 0 0.5em;
 }

@@ -53,8 +53,27 @@
 <template name="formAdmin">
   <form>
     <h2>Administradores</h2>
+    <ul class="users">
     {{#each users}}
-      {{_id}}
+      {{> user}}
     {{/each}}
+    </ul>
   </form>
+</template>
+
+<template name="user">
+  <li>
+    <div>
+      <h3>{{services.google.name}}</h3>
+      <p class="additional_info">{{services.google.email}}</p>
+    </div>
+    <div class="controls">
+      <<---! TODO: change color black to white !--->>
+      {{#if admin}}
+        <img src="ic_check_box_24px.svg">
+      {{else}}
+        <img src="ic_check_box_outline_blank_24px.svg">
+      {{/if}}
+    </div>
+  </li>
 </template>
