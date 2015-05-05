@@ -33,6 +33,7 @@ input{
 input[type='checkbox']{
 	display: inline-block;
 	width: inherit;
+	margin: 0 0.5em;
 }
 
 label{
@@ -86,17 +87,21 @@ input{
 	margin: 0.3em 0;
 }
 
-.users li{
+.users li,
+.curso_inscricao{
 	background-color: rgba(255,255,255,0.3);
 	padding: 0.5em;
 	margin: 0.1em -0.5em;
+	display: block;
 }
-.users li:hover{
+.users li:hover,
+.curso_inscricao:hover{
 	background-color: rgba(255,255,255,0.2);
 }
 
 .additional_info{
 	color: #DDD;
+	max-width: 20em;
 }
 
 .users li div{
@@ -106,4 +111,7 @@ input{
 .controls{
 	float: right;
 	margin: 0.5em 0 0 0.5em;
+}
+.cursos{
+	margin: 0.5em 0;
 }

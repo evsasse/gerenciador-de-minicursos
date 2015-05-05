@@ -11,7 +11,7 @@
   <div class="content">
   {{> formInscricao}}
   {{#if isAdmin}}
-    {{> formNewCurso}}
+    {{> formEditCursos}}
     {{> formAdmin}}
   {{/if}}
   </div>
@@ -25,9 +25,9 @@
       <input type="text" placeholder="CPF - 01234567890" pattern="[0-9]{11}"
         value="" title="Preencha no formato '12312312312', ou deixe em branco">
       <input type="email" placeholder="Email" required>
-      <ul>
+      <ul class="cursos">
         {{#each cursos}}
-          <li>
+          <li class="curso_inscricao">
           {{> cursoInscricao}}
           </li>
         {{/each}}
@@ -42,12 +42,26 @@
 
 <template name="cursoInscricao">
   <label><input type="checkbox">{{nome}}</label>
+  <p class="additional_info">
+    {{additional_info}}
+  </p>
 </template>
 
-<template name="formNewCurso">
+<template name="formEditCursos">
   <form>
     <h2>Confirmação, Pagamento e Presença</h2>
+    <ul>
+    {{#each cursos}}
+      <li class="curso_edicao">
+        {{> cursoEdicao}}
+      </li>
+    {{/each}}
+    </ul>
   </form>
+</template>
+
+<template name="cursoEdicao">
+  {{nome}}
 </template>
 
 <template name="formAdmin">
@@ -68,11 +82,10 @@
       <p class="additional_info">{{services.google.email}}</p>
     </div>
     <div class="controls">
-      <<---! TODO: change color black to white !--->>
       {{#if admin}}
-        <img src="ic_check_box_24px.svg">
+        <img class="admin_checkbox" width="24px" height="24px" src="checkboxfilled.svg">
       {{else}}
-        <img src="ic_check_box_outline_blank_24px.svg">
+        <img class="admin_checkbox" width="24px" height="24px" src="checkboxunfilled.svg">
       {{/if}}
     </div>
   </li>

@@ -25,12 +25,25 @@ if (Meteor.isClient) {
       return false;
     }
   });
+  Template.formEditCursos.helpers({
+    cursos: function(){
+      var cursos = Cursos.find({});
+      if(cursos.count() > 0)
+        return cursos;
+      return false;
+    }
+  });
   Template.formAdmin.helpers({
     users: function(){
       return Users.find({});
     }
   });
 
+  Template.user.events({
+    "click .admin_checkbox": function(){
+      Meteor.call('changeAdmin',this);
+    }
+  });
 
 }
 
@@ -40,6 +53,10 @@ Meteor.methods({
     if(user && user.hasOwnProperty('admin') && user.admin === true)
       return true;
     return false;
+  },
+  changeAdmin: function(user){
+    if(Meteor.call('isAdmin'))
+      Users.update({'_id':user._id},{$set:{'admin':!user.admin}});
   }
 });
 
