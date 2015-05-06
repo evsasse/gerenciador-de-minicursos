@@ -41,7 +41,7 @@
 </template>
 
 <template name="cursoInscricao">
-  <label><input type="checkbox">{{nome}}</label>
+  <input type="checkbox" id="{{_id}}"><label for="{{_id}}">{{nome}}</label>
   <p class="additional_info">
     {{additional_info}}
   </p>
@@ -83,10 +83,11 @@
     </div>
     <div class="controls">
       {{#if admin}}
-        <img class="admin_checkbox" width="24px" height="24px" src="checkboxfilled.svg">
+      <input type="checkbox" id="{{_id}}" checked>
       {{else}}
-        <img class="admin_checkbox" width="24px" height="24px" src="checkboxunfilled.svg">
+      <input type="checkbox" id="{{_id}}">
       {{/if}}
+      <label class="admin_checkbox" for="{{_id}}"></label>
     </div>
   </li>
 </template>

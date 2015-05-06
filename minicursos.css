@@ -30,11 +30,6 @@ input{
 	display: block;
 	background-color: #FAFAFA;
 }
-input[type='checkbox']{
-	display: inline-block;
-	width: inherit;
-	margin: 0 0.5em;
-}
 
 label{
 	font-size: 1.5em;
@@ -114,4 +109,14 @@ input{
 }
 .cursos{
 	margin: 0.5em 0;
+}
+input[type='checkbox']{
+	display: none;
+}
+input[type=checkbox] + label{
+	padding-left: 1.5em;
+	background: url(checkboxunfilled.svg) left center no-repeat;
+}
+input[type=checkbox]:checked + label{
+	background: url(checkboxfilled.svg) left center no-repeat;
 }
