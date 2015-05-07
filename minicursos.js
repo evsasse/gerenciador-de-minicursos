@@ -48,6 +48,12 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.cursoEdicao.events({
+    "click .changeHabilitado": function(){
+      Meteor.call('changeHabilitado',this);
+    }
+  });
+
 }
 
 Meteor.methods({
@@ -60,6 +66,10 @@ Meteor.methods({
   changeAdmin: function(user){
     if(Meteor.call('isAdmin'))
       Users.update({'_id':user._id},{$set:{'admin':!user.admin}});
+  },
+  changeHabilitado: function(curso){
+    if(Meteor.call('isAdmin'))
+      Cursos.update({'_id':curso._id},{$set:{'habilitado':!curso.habilitado}});
   }
 });
 
