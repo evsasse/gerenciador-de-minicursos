@@ -83,14 +83,16 @@ input{
 }
 
 .users li,
-.curso_inscricao{
+.curso_inscricao,
+.cursos_edicao li{
 	background-color: rgba(255,255,255,0.3);
 	padding: 0.5em;
 	margin: 0.1em -0.5em;
 	display: block;
 }
 .users li:hover,
-.curso_inscricao:hover{
+.curso_inscricao:hover,
+.cursos_edicao li:hover{
 	background-color: rgba(255,255,255,0.2);
 }
 
@@ -103,9 +105,16 @@ input{
 	display: inline-block;
 }
 
+.users .controls{
+	margin: 0.5em 0 0 0.5em;
+}
+
+.cursos_edicao .controls{
+	margin: -0.3em 0;
+}
+
 .controls{
 	float: right;
-	margin: 0.5em 0 0 0.5em;
 }
 .cursos{
 	margin: 0.5em 0;

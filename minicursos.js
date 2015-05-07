@@ -4,7 +4,7 @@ Users = Meteor.users;
 if (Meteor.isClient) {
   Session.set('isAdmin',false);
 
-  Meteor.subscribe('allCursos');
+  Meteor.subscribe('cursosDisponiveis');
   Meteor.subscribe('currentUser');
 
   Template.body.helpers({
@@ -12,14 +12,17 @@ if (Meteor.isClient) {
       Meteor.call('isAdmin', function(err,data){
         if(err) console.log(err);
         Session.set('isAdmin',data);
-        Meteor.subscribe('allUsers');
+        if(data){
+          Meteor.subscribe('allUsers');
+          Meteor.subscribe('allCursos');
+        }
       });
       return Session.get('isAdmin');
     }
   });
   Template.formInscricao.helpers({
     cursos: function(){
-      var cursos = Cursos.find({});
+      var cursos = Cursos.find({'habilitado':true});
       if(cursos.count() > 0)
         return cursos;
       return false;
@@ -64,6 +67,9 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     Meteor.publish('allCursos',function(){
       return Cursos.find({});
+    });
+    Meteor.publish('cursosDisponiveis',function(){
+      return Cursos.find({'habilitado':true});
     });
     Meteor.publish('currentUser',function(){
       return Meteor.users.find({'_id':this.userId},{'admin':1});
