@@ -1,0 +1,79 @@
+<head>
+  <title>Cadastro para Minicursos</title>
+</head>
+
+<body>
+  <header>
+    {{> loginButtons}}
+  </header>
+  <main>
+    {{> formInscricao}}
+
+    {{> controlCursos}}
+    {{> controlAdmins}}
+  </main>
+</body>
+
+<template name="formInscricao">
+  <form id="form-inscricao">
+    <h2>Cadastro para Minicursos</h2>
+    <input type="text" name="nome" placeholder="Nome">
+    <input type="text" name="cpf" placeholder="CPF - 12345678912" required>
+    <input type="email" name="email" placeholder="Email">
+    <ul>
+    {{#each cursos}}
+      <li>
+        <input type="checkbox" id="cursoFormInscricao{{_id}}">
+        <label for="cursoFormInscricao{{_id}}">{{nome}}</label>
+        <p class="description">{{#markdown}}{{descricao}}{{/markdown}}</p>
+      </li>
+    {{/each}}
+    </ul>
+    <input type="submit" value="Enviar">
+  </form>
+</template>
+
+<template name="controlCursos">
+  <section id="control-cursos">
+    <h2>Controle dos Minicursos</h2>
+    <ul>
+      {{#each cursos}}
+        <li>
+          {{> controlCurso}}
+        </li>
+      {{/each}}
+      <li>
+        <form id="create-curso">
+          <input type="text" name="nome" placeholder="Nome">
+          <input type="submit" value="Criar">
+        </form>
+      </li>
+    </ul>
+  </section>
+</template>
+
+<template name="controlCurso">
+  {{nome}}
+  <form class="edit-curso">
+    <input type="hidden" name="id" value="{{_id}}">
+    <input type="text" name="nome" placeholder="nome" value="{{nome}}">
+    <textarea name="descricao" placeholder="Descrição - Pode ser utilizado Markdown">{{descricao}}</textarea>
+    <input type="submit" value="Editar">
+  </form>
+  <ul>
+    {{#each participantes}}
+      <li>
+        {{> controlParticipante}}
+      </li>
+    {{/each}}
+  </ul>
+</template>
+
+<template name="controlParticipante">
+  {{nome}} {{cpf}} {{email}}
+</template>
+
+<template name="controlAdmins">
+  <section id="control-admins">
+  </section>
+</template>
