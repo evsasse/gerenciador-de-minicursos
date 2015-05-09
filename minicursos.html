@@ -56,7 +56,17 @@
         {{> cursoEdicao}}
       </li>
     {{/each}}
+      <li>
+        {{> formCreateCurso}}
+      </li>
     </ul>
+  </form>
+</template>
+
+<template name="formCreateCurso">
+  <form class="createCurso">
+    <input type="text" name="nome" placeholder="Novo Minicurso">
+    <input type="submit" value="Adicionar novo minicurso">
   </form>
 </template>
 

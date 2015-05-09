@@ -42,6 +42,8 @@ if (Meteor.isClient) {
     }
   });
 
+////////////////////////////////////////////////////////////////////////////////
+
   Template.user.events({
     "click .admin_checkbox": function(){
       Meteor.call('changeAdmin',this);
@@ -54,6 +56,18 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.formCreateCurso.events({
+    "submit": function(event){
+      var nome = event.target.nome.value;
+
+      if(nome != ''){
+        Meteor.call('createCurso',nome);
+        event.target.nome.value = '';
+      }
+
+      return false;
+    }
+  });
 }
 
 Meteor.methods({
@@ -70,6 +84,10 @@ Meteor.methods({
   changeHabilitado: function(curso){
     if(Meteor.call('isAdmin'))
       Cursos.update({'_id':curso._id},{$set:{'habilitado':!curso.habilitado}});
+  },
+  createCurso: function(nome){
+    if(Meteor.call('isAdmin'))
+      Cursos.insert({'nome':nome});
   }
 });
 
