@@ -1,6 +1,6 @@
 <head>
   <title>Cadastro para Minicursos</title>
-  <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -16,22 +16,24 @@
 </body>
 
 <template name="formInscricao">
-  <form id="form-inscricao">
-    <h2>Cadastro para Minicursos</h2>
-    <input type="text" name="nome" placeholder="Nome">
-    <input type="text" name="cpf" placeholder="CPF - 12345678912" required>
-    <input type="email" name="email" placeholder="Email">
-    <ul>
-    {{#each cursos}}
-      <li>
-        <input type="checkbox" id="cursoFormInscricao{{_id}}">
-        <label for="cursoFormInscricao{{_id}}">{{nome}}</label>
-        <p class="description">{{#markdown}}{{descricao}}{{/markdown}}</p>
-      </li>
-    {{/each}}
-    </ul>
-    <input type="submit" value="Enviar">
-  </form>
+  <section>
+    <form id="form-inscricao">
+      <h2>Cadastro para Minicursos</h2>
+      <input type="text" name="nome" placeholder="Nome">
+      <input type="text" name="cpf" placeholder="CPF - 12345678912" required>
+      <input type="email" name="email" placeholder="Email">
+      <ul class="options">
+      {{#each cursos}}
+        <li>
+          <input type="checkbox" id="cursoFormInscricao{{_id}}">
+          <label for="cursoFormInscricao{{_id}}">{{nome}}</label>
+          <p class="description">{{#markdown}}{{descricao}}{{/markdown}}</p>
+        </li>
+      {{/each}}
+      </ul>
+      <input type="submit" value="Enviar">
+    </form>
+  </section>
 </template>
 
 <template name="controlCursos">

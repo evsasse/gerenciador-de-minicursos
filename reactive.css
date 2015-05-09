@@ -5,10 +5,17 @@
 }
 
 input,
-textarea,
-button{
+textarea{
 	font-family: inherit;
 }
+
+input,
+textarea{
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
 /* /fixes */
 
 body{
@@ -19,5 +26,76 @@ body{
 h1,
 h2,
 h3{
-	font-weight: normal;
+	margin: 0.5em;
+	font-weight: 300;
+}
+
+header,
+section{
+	box-shadow: 0 1px 2px #DDD;
+	padding: 0.5em;
+}
+
+header{
+	text-align: right;
+	background-color: #EEE;
+}
+
+main{
+	text-align: center;
+}
+
+section{
+	text-align: left;
+	color: #FAFAFA;
+	display: inline-block;
+	background-color: #5C6BC0;
+	margin: 1em 0.3em;
+	padding: 0.3em;
+}
+
+input,
+textarea{
+	display: block;
+	border: 0;
+	padding: 0.5em 0.3em;
+	margin: 0.2em 0;
+	width: 100%;
+}
+
+textarea{
+	resize: none;
+}
+
+input[type="checkbox"] {
+	display: none;
+}
+
+input[type="checkbox"] + label{
+	padding: 0.2em 0 0.2em 1.7em;
+	background: url(img/cb.svg) no-repeat left center;
+}
+
+input[type="checkbox"]:checked + label{
+	background: url(img/cbChecked.svg) no-repeat left center;
+}
+
+ul{
+	list-style-type: none;
+}
+
+.options li{
+	padding: 0.4em 0;
+	background-color: rgba(255,255,255,0.3);
+	margin: 0 -0.3em;
+}
+
+.options li:hover{
+	background-color: rgba(255,255,255,0.2);
+}
+
+.description{
+	margin-left: 2em;
+	color: #CCC;
+	font-size: 0.9em;
 }
