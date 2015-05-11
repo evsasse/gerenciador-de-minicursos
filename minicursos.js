@@ -53,6 +53,11 @@ if (Meteor.isClient) {
   Template.cursoEdicao.events({
     "click .changeHabilitado": function(){
       Meteor.call('changeHabilitado',this);
+    },
+    "click .excluir": function(){
+      var answer = window.confirm("Tem certeza que deseja excluir '"+ this.nome +"'?");
+      if(answer)
+        Meteor.call('excluir',this);
     }
   });
 
@@ -88,6 +93,10 @@ Meteor.methods({
   createCurso: function(nome){
     if(Meteor.call('isAdmin'))
       Cursos.insert({'nome':nome});
+  },
+  excluir: function(curso){
+    if(Meteor.call('isAdmin'))
+      Cursos.remove({'_id':curso._id});
   }
 });
 

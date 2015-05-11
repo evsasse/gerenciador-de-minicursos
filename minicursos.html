@@ -74,11 +74,12 @@
   {{nome}}
   <div class="controls">
     {{#if habilitado}}
-    <input type="checkbox" id="cursoEdicao{{_id}}" checked>
+    <input type="checkbox" id="cursoEdicaoHabilitar{{_id}}" checked>
     {{else}}
-    <input type="checkbox" id="cursoEdicao{{_id}}">
+    <input type="checkbox" id="cursoEdicaoHabilitar{{_id}}">
     {{/if}}
-    <label for="cursoEdicao{{_id}}" class="changeHabilitado" title="Habilitar/Desabilitar"></label>
+    <label for="cursoEdicaoHabilitar{{_id}}" class="changeHabilitado" title="Habilitar/Desabilitar"></label>
+    <button class="excluir">Excluir</button>
   </div>
 </template>
 
