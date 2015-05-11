@@ -129,3 +129,23 @@ input[type=checkbox] + label{
 input[type=checkbox]:checked + label{
 	background: url(checkboxfilled.svg) left center no-repeat;
 }
+
+button.excluir{
+	background: url(remove.svg) left top no-repeat;
+	background-color: rgba(0,0,0,0);
+	border: 0;
+}
+
+.changeHabilitado,
+.excluir{
+	display: inline-block;
+}
+
+.changeHabilitado{
+	height: 1.3em;
+}
+
+.excluir{
+	height: 1.8em;
+	width: 2em;
+}
