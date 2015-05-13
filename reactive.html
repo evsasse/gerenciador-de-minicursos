@@ -10,7 +10,7 @@
   <main>
     {{> formInscricao}}
 
-    {{#if true}}
+    {{#if isAdmin}}
       {{> controlCursos}}
       {{> controlAdmins}}
     {{/if}}
@@ -33,7 +33,7 @@
             <p class="description">{{#markdown}}{{descricao}}{{/markdown}}</p>
           </li>
         {{else}}
-          {{#if true}}
+          {{#if isAdmin}}
             <li class="disabled">
               <input type="checkbox" id="cursoFormInscricao{{_id}}">
               <label for="cursoFormInscricao{{_id}}">{{nome}}</label>

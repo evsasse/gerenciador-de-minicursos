@@ -1,15 +1,6 @@
 Cursos = new Mongo.Collection('cursos');
 Users = Meteor.users;
 
-isAdmin = function(){
-  try{
-    var isAdmin = Meteor.user().admin === true;
-    return isAdmin;
-  }catch(err){
-    return false;
-  }
-}
-
 getCursos = function(){
   return Cursos.find();
 };
@@ -18,14 +9,20 @@ getCursos = function(){
 ////////////////////////////////////////////////////////////////////////////////
 
 if (Meteor.isClient) {
+  Session.setDefault('isAdmin', false);
+
   Deps.autorun(function(){
-    Meteor.subscribe('users',Meteor.user());
+    if(Meteor.user()){
+      Meteor.subscribe('users',Meteor.user());
+    }
     Meteor.subscribe('cursos',Meteor.user());
+    Session.set('isAdmin', (Meteor.user() && Meteor.user().admin) === true);
+    //console.log(Session.get('isAdmin'));
   });
 
   Template.body.helpers({
     isAdmin: function(){
-      return isAdmin();
+      return Session.get('isAdmin');
     }
   });
 
@@ -34,7 +31,7 @@ if (Meteor.isClient) {
       return getCursos();
     },
     isAdmin: function(){
-      return isAdmin();
+      return Session.get('isAdmin');
     }
   });
 
@@ -128,7 +125,7 @@ if (Meteor.isClient) {
 
 Meteor.methods({
   createCurso: function(nome){
-    if(!isAdmin())
+    if(!Session.get('isAdmin'))
       return;
 
     Cursos.insert({
@@ -136,7 +133,7 @@ Meteor.methods({
     });
   },
   editCurso: function(curso,nome,descricao){
-    if(!isAdmin())
+    if(!Session.get('isAdmin'))
       return;
 
     Cursos.update({
@@ -147,7 +144,7 @@ Meteor.methods({
     }});
   },
   removeCurso: function(curso){
-    if(!isAdmin())
+    if(!Session.get('isAdmin'))
       return;
 
     Cursos.remove({
@@ -155,7 +152,7 @@ Meteor.methods({
     });
   },
   toggleCursoEnabled: function(curso){
-    if(!isAdmin())
+    if(!Session.get('isAdmin'))
       return;
 
     Cursos.update({
@@ -165,7 +162,7 @@ Meteor.methods({
     }});
   },
   toggleUserAdmin: function(user){
-    if(!isAdmin())
+    if(!Session.get('isAdmin'))
       return;
 
     Users.update({
