@@ -10,8 +10,10 @@
   <main>
     {{> formInscricao}}
 
-    {{> controlCursos}}
-    {{> controlAdmins}}
+    {{#if true}}
+      {{> controlCursos}}
+      {{> controlAdmins}}
+    {{/if}}
   </main>
 </body>
 
@@ -24,11 +26,24 @@
       <input type="email" name="email" placeholder="Email">
       <ul class="options">
       {{#each cursos}}
-        <li>
-          <input type="checkbox" id="cursoFormInscricao{{_id}}">
-          <label for="cursoFormInscricao{{_id}}">{{nome}}</label>
-          <p class="description">{{#markdown}}{{descricao}}{{/markdown}}</p>
-        </li>
+        {{#if habilitado}}
+          <li>
+            <input type="checkbox" id="cursoFormInscricao{{_id}}">
+            <label for="cursoFormInscricao{{_id}}">{{nome}}</label>
+            <p class="description">{{#markdown}}{{descricao}}{{/markdown}}</p>
+          </li>
+        {{else}}
+          {{#if true}}
+            <li class="disabled">
+              <input type="checkbox" id="cursoFormInscricao{{_id}}">
+              <label for="cursoFormInscricao{{_id}}">{{nome}}</label>
+              <p class="description">
+                (DESABILITADO)<br>
+                {{#markdown}}{{descricao}}{{/markdown}}
+              </p>
+            </li>
+          {{/if}}
+        {{/if}}
       {{/each}}
       </ul>
       <input type="submit" value="Enviar">
@@ -57,12 +72,20 @@
 
 <template name="controlCurso">
   {{nome}}
-  <form class="edit-curso">
-    <input type="hidden" name="id" value="{{_id}}">
-    <input type="text" name="nome" placeholder="nome" value="{{nome}}">
-    <textarea name="descricao" placeholder="Descrição - Pode ser utilizado Markdown">{{descricao}}</textarea>
-    <input type="submit" value="Editar">
-  </form>
+  <button class="remove" title="Excluir Curso"></button>
+  <button class="show-edit" title="Editar"></button>
+  {{#if habilitado}}
+    <button class="enabled" title="Desabilitar"></button>
+  {{else}}
+    <button class="disabled" title="Habilitar"></button>
+  {{/if}}
+  {{#if showEdit}}
+    <form class="edit-curso">
+      <input type="text" name="nome" placeholder="nome" value="{{nome}}">
+      <textarea name="descricao" placeholder="Descrição - Em Markdown">{{descricao}}</textarea>
+      <input type="submit" value="Editar">
+    </form>
+  {{/if}}
   <ul>
     {{#each participantes}}
       <li>
@@ -78,5 +101,24 @@
 
 <template name="controlAdmins">
   <section id="control-admins">
+    <ul>
+      {{#each users}}
+        <li>
+          {{> controlAdmin}}
+        </li>
+      {{/each}}
+    </ul>
   </section>
+</template>
+
+<template name="controlAdmin">
+  {{#if admin}}
+    <button class="enabled" title="Tirar de Administrador"></button>
+  {{else}}
+    <button class="disabled" title="Tornar Administrador"></button>
+  {{/if}}
+  {{services.google.name}}
+  <p class="description">
+    {{services.google.email}}
+  </p>
 </template>

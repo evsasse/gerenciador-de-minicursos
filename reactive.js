@@ -1,17 +1,42 @@
 Cursos = new Mongo.Collection('cursos');
+Users = Meteor.users;
+
+isAdmin = function(){
+  try{
+    var isAdmin = Meteor.user().admin === true;
+    return isAdmin;
+  }catch(err){
+    return false;
+  }
+}
+
+getCursos = function(){
+  return Cursos.find();
+};
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 if (Meteor.isClient) {
-  Meteor.subscribe('cursos');
+  Deps.autorun(function(){
+    Meteor.subscribe('users',Meteor.user());
+    Meteor.subscribe('cursos',Meteor.user());
+  });
 
-  getCursos = function(){
-    return Cursos.find();
-  };
+  Template.body.helpers({
+    isAdmin: function(){
+      return isAdmin();
+    }
+  });
 
   Template.formInscricao.helpers({
     cursos: function(){
       return getCursos();
+    },
+    isAdmin: function(){
+      return isAdmin();
     }
-  })
+  });
 
   Template.controlCursos.helpers({
     cursos: function(){
@@ -19,71 +44,157 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.controlCurso.helpers({
+    showEdit: function(){
+      return this._id === Session.get('idShowEdit');
+    }
+  });
+
+  Template.controlAdmins.helpers({
+    users: function(){
+      return Users.find();
+    }
+  })
+
+////////////////////////////////////////////////////////////////////////////////
+
+  Template.formInscricao.events({
+    'submit #form-inscricao': function(event){
+      event.preventDefault();
+
+      var nome = event.target.nome.value;
+
+      Meteor.call('createCurso',nome);
+
+      event.target.nome.value = '';
+
+      return false;
+    }
+  });
+
   Template.controlCursos.events({
     'submit #create-curso': function(event){
-      // pega o valor no campo do formulario
+      event.preventDefault();
+
       var nome = event.target.nome.value;
 
       // TODO: verificar se o campo não está vazio, retornar erro(?)
 
-      // insere no bd
       Meteor.call('createCurso', nome);
 
-      // limpa o campo do formulario
-      event.target.text.value = '';
+      event.target.nome.value = '';
 
-      // impede que redirecione
       return false;
     }
   });
 
   Template.controlCurso.events({
     'submit .edit-curso': function(event){
-      // pega o valor dos campos do formulario
-      var id = event.target.id.value;
+      event.preventDefault();
+
       var nome = event.target.nome.value;
       var descricao = event.target.descricao.value;
 
       // TODO: verificar se o campo não está vazio, retornar erro(?)
 
-      // edita no bd
-      Meteor.call('editCurso', id, nome, descricao);
+      Meteor.call('editCurso', this, nome, descricao);
 
       return false;
+    },
+    'click .show-edit': function(event){
+      if(Session.get('idShowEdit') === this._id)
+        Session.set('idShowEdit','');
+      else
+        Session.set('idShowEdit',this._id);
+    },
+    'click .remove': function(event){
+      if(confirm('Tem certeza que deseja excluir esse curso?'))
+        Meteor.call('removeCurso', this);
+    },
+    'click .disabled, click .enabled': function(event){
+      Meteor.call('toggleCursoEnabled', this);
+    }
+  });
+
+  Template.controlAdmin.events({
+    'click .disabled, click .enabled': function(event){
+      Meteor.call('toggleUserAdmin', this);
     }
   });
 }
 
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 Meteor.methods({
   createCurso: function(nome){
-
-    // TODO: verificar se é admin
+    if(!isAdmin())
+      return;
 
     Cursos.insert({
       'nome': nome
     });
   },
-  editCurso: function(id,nome,descricao){
-
-    // TODO: verificar se é admin
+  editCurso: function(curso,nome,descricao){
+    if(!isAdmin())
+      return;
 
     Cursos.update({
-      '_id': id
+      '_id': curso._id
     },{$set:{
       'nome': nome,
       'descricao': descricao
     }});
   },
-  addParticipante: function(curso,nome,cpf,email){
+  removeCurso: function(curso){
+    if(!isAdmin())
+      return;
 
+    Cursos.remove({
+      '_id': curso._id
+    });
+  },
+  toggleCursoEnabled: function(curso){
+    if(!isAdmin())
+      return;
+
+    Cursos.update({
+      '_id': curso._id
+    },{$set:{
+      'habilitado': ! curso.habilitado
+    }});
+  },
+  toggleUserAdmin: function(user){
+    if(!isAdmin())
+      return;
+
+    Users.update({
+      '_id': user._id
+    },{$set:{
+      'admin': ! user.admin
+    }});
   }
 });
 
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 if (Meteor.isServer) {
-  Meteor.publish('cursos', function(){
+  Meteor.publish('users', function(user){
+    if((user && user.admin) === true)
+      return Users.find();
+    return Users.find({
+      '_id': user._id
+    });
+  });
+  Meteor.publish('cursos', function(user){
 
     // TODO: retornar apenas os curso disponíveis e dados como _id, nome e descricao se não for admin
 
-    return Cursos.find();
+    if((user && user.admin) === true)
+      return Cursos.find();
+    return Cursos.find({
+      'habilitado': true
+    });
   })
 }
