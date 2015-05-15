@@ -49,6 +49,8 @@ section{
 	text-align: left;
 	color: #FAFAFA;
 	display: inline-block;
+	vertical-align: middle;
+	/* vertical-align: top; */
 	background-color: #2196F3;
 	margin: 1em 0.3em;
 	padding: 0.3em;
