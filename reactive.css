@@ -49,8 +49,8 @@ section{
 	text-align: left;
 	color: #FAFAFA;
 	display: inline-block;
-	vertical-align: middle;
-	/* vertical-align: top; */
+	vertical-align: top;
+	/* vertical-align: middle; */
 	background-color: #2196F3;
 	margin: 1em 0.3em;
 	padding: 0.3em;
@@ -113,8 +113,13 @@ li{
 }
 
 .description{
-	color: #DDD;
+	color: rgba(0,0,0,0.3);
 	font-size: 0.9em;
+	max-width: 25em;
+}
+
+main > .description{
+	display: inline-block;
 }
 
 #form-inscricao .description{

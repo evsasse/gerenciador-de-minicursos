@@ -8,7 +8,14 @@
     {{> loginButtons}}
   </header>
   <main>
-    {{> formInscricao}}
+    {{#if cursos}}
+      {{> formInscricao}}
+    {{else}}
+      <h1>Não há cursos disponíveis no momento :(</h1>
+      <p class="description">Costumamos publicar nas páginas de Ciências da Computação, e Sitemas de
+      Infomação no Facebook, nas listas de email dos cursos, e no site do PET, quando disponibilizamos novos
+      cursos e vagas. Fique atento! (:</p>
+    {{/if}}
 
     {{#if isAdmin}}
       {{> controlCursos}}
@@ -21,21 +28,21 @@
   <section>
     <form id="form-inscricao">
       <h2>Cadastro para Minicursos</h2>
-      <input type="text" name="nome" placeholder="Nome">
-      <input type="text" name="cpf" placeholder="CPF - 12345678912" required>
-      <input type="email" name="email" placeholder="Email">
+      <input type="text" name="nome" placeholder="Nome" required>
+      <input type="text" name="cpf" placeholder="CPF - 12345678912" pattern="[0-9]{11}" title="Preencha no formato '12312312312', ou deixe em branco">
+      <input type="email" name="email" placeholder="Email" required>
       <ul class="options">
       {{#each cursos}}
         {{#if habilitado}}
           <li>
-            <input type="checkbox" id="cursoFormInscricao{{_id}}">
+            <input type="checkbox" name="cursos" id="cursoFormInscricao{{_id}}" value="{{_id}}">
             <label for="cursoFormInscricao{{_id}}">{{nome}}</label>
             <p class="description">{{#markdown}}{{descricao}}{{/markdown}}</p>
           </li>
         {{else}}
           {{#if isAdmin}}
             <li class="disabled">
-              <input type="checkbox" id="cursoFormInscricao{{_id}}">
+              <input type="checkbox" name="cursos" id="cursoFormInscricao{{_id}}" value="{{_id}}">
               <label for="cursoFormInscricao{{_id}}">{{nome}}</label>
               <p class="description">
                 (DESABILITADO)<br>

@@ -1,15 +1,29 @@
 Cursos = new Mongo.Collection('cursos');
 Users = Meteor.users;
 
-getCursos = function(){
-  return Cursos.find();
-};
-
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 if (Meteor.isClient) {
   Session.setDefault('isAdmin', false);
+
+  getCursos = function(){
+    return Cursos.find();
+  };
+
+  getCursosIdIn = function(ids){
+    return Cursos.find({
+      '_id':{$in: ids}
+    });
+  }
+
+  getCheckedCheckboxesValues = function(cbs){
+    var checkedCbs = [];
+    for(x in cbs)
+      if(cbs[x].checked === true)
+        checkedCbs.push(cbs[x].value);
+    return checkedCbs;
+  }
 
   Deps.autorun(function(){
     if(Meteor.user()){
@@ -17,12 +31,14 @@ if (Meteor.isClient) {
     }
     Meteor.subscribe('cursos',Meteor.user());
     Session.set('isAdmin', (Meteor.user() && Meteor.user().admin) === true);
-    //console.log(Session.get('isAdmin'));
   });
 
   Template.body.helpers({
     isAdmin: function(){
       return Session.get('isAdmin');
+    },
+    cursos: function(){
+      return getCursos().count() > 0;
     }
   });
 
@@ -60,10 +76,18 @@ if (Meteor.isClient) {
       event.preventDefault();
 
       var nome = event.target.nome.value;
+      var cpf = event.target.cpf.value;
+      var email = event.target.email.value;
+      var cursos = event.target.cursos;
 
-      Meteor.call('createCurso',nome);
+      var participante = [nome,cpf,email];
 
-      event.target.nome.value = '';
+      cursos = getCheckedCheckboxesValues(cursos);
+      cursos = getCursosIdIn(cursos);
+      cursos = cursos.fetch();
+
+      for(x in cursos)
+        Meteor.call('registerInCurso',cursos[x],participante);
 
       return false;
     }
@@ -124,8 +148,11 @@ if (Meteor.isClient) {
 ////////////////////////////////////////////////////////////////////////////////
 
 Meteor.methods({
+  isAdmin: function(){
+    return (Meteor.user() && Meteor.user().admin) === true;
+  },
   createCurso: function(nome){
-    if(!Session.get('isAdmin'))
+    if(!Meteor.call('isAdmin'))
       return;
 
     Cursos.insert({
@@ -133,7 +160,7 @@ Meteor.methods({
     });
   },
   editCurso: function(curso,nome,descricao){
-    if(!Session.get('isAdmin'))
+    if(!Meteor.call('isAdmin'))
       return;
 
     Cursos.update({
@@ -144,7 +171,7 @@ Meteor.methods({
     }});
   },
   removeCurso: function(curso){
-    if(!Session.get('isAdmin'))
+    if(!Meteor.call('isAdmin'))
       return;
 
     Cursos.remove({
@@ -152,7 +179,7 @@ Meteor.methods({
     });
   },
   toggleCursoEnabled: function(curso){
-    if(!Session.get('isAdmin'))
+    if(!Meteor.call('isAdmin'))
       return;
 
     Cursos.update({
@@ -161,8 +188,15 @@ Meteor.methods({
       'habilitado': ! curso.habilitado
     }});
   },
+  registerInCurso: function(curso, participante){
+    Cursos.update({
+      '_id': curso._id
+    },{$push:{
+      'participantes': participante
+    }});
+  },
   toggleUserAdmin: function(user){
-    if(!Session.get('isAdmin'))
+    if(!Meteor.call('isAdmin'))
       return;
 
     Users.update({
