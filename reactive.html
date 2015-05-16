@@ -81,6 +81,7 @@
   {{nome}}
   <button class="remove" title="Excluir Curso"></button>
   <button class="show-edit" title="Editar"></button>
+  <button class="show-participantes" title="Mostrar inscritos"></button>
   {{#if habilitado}}
     <button class="enabled" title="Desabilitar"></button>
   {{else}}
@@ -93,21 +94,34 @@
       <input type="submit" value="Editar">
     </form>
   {{/if}}
-  <ul>
-    {{#each participantes}}
-      <li>
-        {{> controlParticipante}}
-      </li>
-    {{/each}}
-  </ul>
+  {{#if showParticipantes}}
+    {{#if participantes}}
+      <ul>
+        {{#each participantes}}
+          <li>
+            {{> controlParticipante}}
+          </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <p class="description">Não há inscritos para este curso :(</p>
+    {{/if}}
+  {{/if}}
 </template>
 
 <template name="controlParticipante">
-  {{nome}} {{cpf}} {{email}}
+  <button class="remove" title="Excluir do Curso"></button>
+  <input class="presenca" type="number" placeholder="Presença" title="Número de presenças" min="0">
+  {{nome}}
+  <p class="description">
+    {{cpf}}<br>
+    {{email}}
+  </p>
 </template>
 
 <template name="controlAdmins">
   <section id="control-admins">
+    <h2>Administradores</h2>
     <ul>
       {{#each users}}
         <li>

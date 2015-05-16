@@ -92,6 +92,7 @@ input[type="submit"]{
 
 ul{
 	list-style-type: none;
+	margin-top: 0.5em;
 }
 
 ul.options{
@@ -109,17 +110,18 @@ li{
 }
 
 .options li.disabled{
-	background-color: rgba(170,170,170,0.8);
+	background-color: rgba(170,170,170,0.7);
 }
 
 .description{
-	color: rgba(0,0,0,0.3);
+	color: rgba(40,40,40,0.5);
 	font-size: 0.9em;
 	max-width: 25em;
 }
 
 main > .description{
-	display: inline-block;
+	text-align: center;
+	margin: 0 auto;
 }
 
 #form-inscricao .description{
@@ -143,6 +145,11 @@ main > .description{
 	border: 0;
 }
 
+.show-participantes{
+	background: url(img/people.svg);
+	border: 0;
+}
+
 button.disabled{
 	background: url(img/cb.svg);
 	border: 0;
@@ -151,4 +158,10 @@ button.disabled{
 button.enabled{
 	background: url(img/cbChecked.svg);
 	border: 0;
+}
+
+input.presenca{
+	display: inline-block;
+	float: right;
+	width: 8em;
 }

@@ -60,6 +60,9 @@ if (Meteor.isClient) {
   Template.controlCurso.helpers({
     showEdit: function(){
       return this._id === Session.get('idShowEdit');
+    },
+    showParticipantes: function(){
+      return this._id === Session.get('idShowParticipantes');
     }
   });
 
@@ -80,7 +83,13 @@ if (Meteor.isClient) {
       var email = event.target.email.value;
       var cursos = event.target.cursos;
 
-      var participante = [nome,cpf,email];
+      //Fix para quando tem só um curso, pq target.cursos retorna apenas 1
+      // objeto, e não um array com 1 objeto
+      if(cursos.length === undefined)
+        cursos = [].concat(cursos);
+      console.log(cursos);
+
+      var participante = {'nome':nome,'cpf':cpf,'email':email};
 
       cursos = getCheckedCheckboxesValues(cursos);
       cursos = getCursosIdIn(cursos);
@@ -128,12 +137,24 @@ if (Meteor.isClient) {
       else
         Session.set('idShowEdit',this._id);
     },
+    'click .show-participantes': function(event){
+      if(Session.get('idShowParticipantes') === this._id)
+        Session.set('idShowParticipantes','');
+      else
+        Session.set('idShowParticipantes',this._id);
+    },
     'click .remove': function(event){
       if(confirm('Tem certeza que deseja excluir esse curso?'))
         Meteor.call('removeCurso', this);
     },
     'click .disabled, click .enabled': function(event){
       Meteor.call('toggleCursoEnabled', this);
+    }
+  });
+
+  Template.controlParticipante.events({
+    'click .remove': function(event){
+      window.alert('BANANA');
     }
   });
 
