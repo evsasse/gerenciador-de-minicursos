@@ -87,16 +87,18 @@ if (Meteor.isClient) {
       // objeto, e não um array com 1 objeto
       if(cursos.length === undefined)
         cursos = [].concat(cursos);
-      console.log(cursos);
 
-      var participante = {'nome':nome,'cpf':cpf,'email':email};
+      var participante = {'_id':Random.id(),'nome':nome,'cpf':cpf,'email':email};
 
       cursos = getCheckedCheckboxesValues(cursos);
       cursos = getCursosIdIn(cursos);
       cursos = cursos.fetch();
 
       for(x in cursos)
-        Meteor.call('registerInCurso',cursos[x],participante);
+        Meteor.call('addParticipante',cursos[x],participante);
+
+      // TODO: esvaziar campos
+      // TODO: retornar mensagem de sucesso/erro
 
       return false;
     }
@@ -143,7 +145,7 @@ if (Meteor.isClient) {
       else
         Session.set('idShowParticipantes',this._id);
     },
-    'click .remove': function(event){
+    'click .removeCurso': function(event){
       if(confirm('Tem certeza que deseja excluir esse curso?'))
         Meteor.call('removeCurso', this);
     },
@@ -153,14 +155,15 @@ if (Meteor.isClient) {
   });
 
   Template.controlParticipante.events({
-    'click .remove': function(event){
-      window.alert('BANANA');
+    'click .removeParticipante': function(event){
+      if(confirm('Tem certeza que deseja excluir o participante desse curso?'))
+        Meteor.call('removeParticipante',this);
     }
   });
 
   Template.controlAdmin.events({
     'click .disabled, click .enabled': function(event){
-      Meteor.call('toggleUserAdmin', this);
+        Meteor.call('toggleUserAdmin', this);
     }
   });
 }
@@ -209,11 +212,19 @@ Meteor.methods({
       'habilitado': ! curso.habilitado
     }});
   },
-  registerInCurso: function(curso, participante){
+  addParticipante: function(curso, participante){
     Cursos.update({
       '_id': curso._id
     },{$push:{
       'participantes': participante
+    }});
+  },
+  removeParticipante: function(participante){
+    Cursos.update({
+    },{$pull:{
+      'participantes':{
+        '_id': participante._id
+      }
     }});
   },
   toggleUserAdmin: function(user){

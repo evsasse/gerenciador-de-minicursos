@@ -79,7 +79,7 @@
 
 <template name="controlCurso">
   {{nome}}
-  <button class="remove" title="Excluir Curso"></button>
+  <button class="remove removeCurso" title="Excluir Curso"></button>
   <button class="show-edit" title="Editar"></button>
   <button class="show-participantes" title="Mostrar inscritos"></button>
   {{#if habilitado}}
@@ -110,7 +110,7 @@
 </template>
 
 <template name="controlParticipante">
-  <button class="remove" title="Excluir do Curso"></button>
+  <button class="remove removeParticipante" title="Excluir do Curso"></button>
   <input class="presenca" type="number" placeholder="Presença" title="Número de presenças" min="0">
   {{nome}}
   <p class="description">
