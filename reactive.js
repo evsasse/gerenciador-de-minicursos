@@ -151,6 +151,9 @@ if (Meteor.isClient) {
     },
     'click .disabled, click .enabled': function(event){
       Meteor.call('toggleCursoEnabled', this);
+    },
+    'click .printChamada': function(event){
+      window.alert('BANANA');
     }
   });
 

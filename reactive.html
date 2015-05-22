@@ -97,6 +97,10 @@
   {{#if showParticipantes}}
     {{#if participantes}}
       <ul>
+        <li>
+          <button class="print printChamada" title="Imprimir chamada"></button>
+          <br>
+        </li>
         {{#each participantes}}
           <li>
             {{> controlParticipante}}
