@@ -153,7 +153,15 @@ if (Meteor.isClient) {
       Meteor.call('toggleCursoEnabled', this);
     },
     'click .printChamada': function(event){
-      window.alert('BANANA');
+      var columns = [
+          {title: "Nome", key: "nome"},
+          {title: "Assinatura", key: null}
+      ];
+      var data = this.participantes;
+
+      var doc = new jsPDF('p', 'pt');
+      doc.autoTable(columns, data, {});
+      doc.output('dataurlnewwindow');
     }
   });
 
@@ -161,6 +169,9 @@ if (Meteor.isClient) {
     'click .removeParticipante': function(event){
       if(confirm('Tem certeza que deseja excluir o participante desse curso?'))
         Meteor.call('removeParticipante',this);
+    },
+    'change .presenca': function(event){
+      Meteor.call('changeParticipantePresenca',this,event.target.value);
     }
   });
 
@@ -223,11 +234,24 @@ Meteor.methods({
     }});
   },
   removeParticipante: function(participante){
+    if(!Meteor.call('isAdmin'))
+      return;
+
     Cursos.update({
     },{$pull:{
       'participantes':{
         '_id': participante._id
       }
+    }});
+  },
+  changeParticipantePresenca: function(participante,value){
+    if(!Meteor.call('isAdmin'))
+      return;
+
+    Cursos.update({
+      'participantes._id': participante._id
+    },{$set:{
+      'participantes.$.presenca': value  
     }});
   },
   toggleUserAdmin: function(user){
