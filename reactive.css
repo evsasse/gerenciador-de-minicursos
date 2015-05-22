@@ -156,6 +156,11 @@ main > .description{
 	border: 0;
 }
 
+.toText{
+	background: url(img/toText.svg);
+	border: 0;
+}
+
 button.disabled{
 	background: url(img/cb.svg);
 	border: 0;

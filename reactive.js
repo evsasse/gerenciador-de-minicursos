@@ -162,6 +162,33 @@ if (Meteor.isClient) {
       var doc = new jsPDF('p', 'pt');
       doc.autoTable(columns, data, {});
       doc.output('dataurlnewwindow');
+    },
+    'click .toText': function(event){
+      var qtd = window.prompt('Transformar em texto formatado para Certificados UFSC\n\n'
+        + 'Considerar participantes com pelo menos quantas presenças?\n'
+        + '(Deixe vazio se deseja considerar todos os inscritos)');
+      var considerados = [];
+
+      if(qtd > 0){
+        for(var i in this.participantes){
+          if(this.participantes[i].presenca >= qtd)
+            considerados.push(this.participantes[i]);
+        }
+      }else{
+        considerados = this.participantes;
+      }
+
+      var toText = '';
+      for(var i in considerados){
+        toText += considerados[i].cpf + ';' + considerados[i].nome + '\n';
+      }
+
+      if(toText == ''){
+        window.alert('Nenhum inscrito corresponde a esse número de presenças');
+      }else{
+        var blob = new Blob([toText]);
+      window.open(window.URL.createObjectURL(blob));
+      }
     }
   });
 
