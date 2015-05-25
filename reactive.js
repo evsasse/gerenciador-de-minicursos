@@ -186,8 +186,8 @@ if (Meteor.isClient) {
       if(toText == ''){
         window.alert('Nenhum inscrito corresponde a esse número de presenças');
       }else{
-        var blob = new Blob([toText]);
-      window.open(window.URL.createObjectURL(blob));
+        var base64 = btoa(unescape(encodeURIComponent(toText)));
+        window.open("data:text/plain;charset=UTF-8;base64,"+base64,"UTF-8 Text");
       }
     }
   });
@@ -278,7 +278,7 @@ Meteor.methods({
     Cursos.update({
       'participantes._id': participante._id
     },{$set:{
-      'participantes.$.presenca': value  
+      'participantes.$.presenca': value
     }});
   },
   toggleUserAdmin: function(user){
