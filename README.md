@@ -11,6 +11,12 @@
         meteor
 0. Using a browser go to localhost:3000, then configure Google login following the instructions that will appear
 0. Login with your account
+0. As the first user you should automagically become admin, if that doesn't happen, or you uncheck yourself from admin you can follow the next intructions.
+0. As admin the form for creating courses should be showing up, create a course :)
+
+## Making yourself an Admin, from the server-side
+**If you have access to an admin account it's much easier to do this using the web interface**
+
 0. On another terminal open the interface Meteor provides for MongoDB, where you've cloned
 
         cd minicursos
@@ -27,5 +33,3 @@ the value for "_id", it should look something like this:
 
         db.users.update({"_id": "SmdiDgeZpMKJJ93RX"},{$set:{"admin":true}});
 0. It should be working now, using the browser go localhost:3000 again. Login with your account again if necessary.
-0. As admin the form for creating courses should be showing up, create a course :)
-0. **Do not uncheck yourself of admin, otherwise you'll need to re-do the 'making you admin' step**
