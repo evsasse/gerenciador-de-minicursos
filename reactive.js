@@ -28,6 +28,7 @@ if (Meteor.isClient) {
   Deps.autorun(function(){
     if(Meteor.user()){
       Meteor.subscribe('users',Meteor.user());
+      Meteor.call('checkIfFirstUser');
     }
     Meteor.subscribe('cursos',Meteor.user());
     Session.set('isAdmin', (Meteor.user() && Meteor.user().admin) === true);
@@ -290,6 +291,16 @@ Meteor.methods({
     },{$set:{
       'admin': ! user.admin
     }});
+  },
+  checkIfFirstUser: function(user){
+    if(Meteor.isServer){ // Fix for latency compensation flickering, as the client kept guessing wrong >:(
+      var users = Users.find({}).count();
+
+      if(users === 1)
+        Users.update({},{$set:{
+          'admin': true
+        }});
+    }
   }
 });
 
