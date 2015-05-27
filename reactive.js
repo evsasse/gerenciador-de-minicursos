@@ -7,6 +7,13 @@ Users = Meteor.users;
 if (Meteor.isClient) {
   Session.setDefault('isAdmin', false);
 
+  Meteor.startup(function() {
+    reCAPTCHA.config({
+      theme: 'light',  // 'light' default or 'dark'
+      publickey: '6LeW4gETAAAAANh0Q4mAYrh1Y65DiZHPCOeFuxs7'
+    });
+  });
+
   getCursos = function(){
     return Cursos.find();
   };
