@@ -99,14 +99,31 @@ if (Meteor.isClient) {
       var participante = {'_id':Random.id(),'nome':nome,'cpf':cpf,'email':email};
 
       cursos = getCheckedCheckboxesValues(cursos);
+      if(cursos.length === 0){
+        window.alert('Nenhum curso foi selecionado');
+        return
+      }
       cursos = getCursosIdIn(cursos);
       cursos = cursos.fetch();
 
-      for(x in cursos)
-        Meteor.call('addParticipante',cursos[x],participante);
+      recaptcha = $('#g-recaptcha-response').val();
 
-      // TODO: esvaziar campos
-      // TODO: retornar mensagem de sucesso/erro
+      Meteor.call('inscreverParticipante', cursos, participante, recaptcha, function(err,data){
+        if(err){
+          if (err.error === 'ERROR_CAPTCHA') {
+            window.alert('Preencha o Captcha corretamente');
+            return
+          }
+        }else{
+          str = 'Foi foi inscrito nos seguintes cursos:\n';
+          for(x in cursos){
+            curso = cursos[x]
+            str += ' => ' + curso.nome + '\n';
+          }
+          window.alert(str)
+          location.reload()
+        }
+      });
 
       return false;
     }
@@ -174,16 +191,15 @@ if (Meteor.isClient) {
     'click .toText': function(event){
       var qtd = window.prompt('Transformar em texto formatado para Certificados UFSC\n\n'
         + 'Considerar participantes com pelo menos quantas presenças?\n'
-        + '(Deixe vazio se deseja considerar todos os inscritos)');
+        + '(Deixe vazio se deseja considerar todos os inscritos)\n'
+        + 'PS: Apenas participantes com CPF cadastrados serão considerados!');
       var considerados = [];
 
-      if(qtd > 0){
-        for(var i in this.participantes){
-          if(this.participantes[i].presenca >= qtd)
-            considerados.push(this.participantes[i]);
-        }
-      }else{
-        considerados = this.participantes;
+      for(var i in this.participantes){
+        if(qtd > 0 && this.participantes[i].presenca >= qtd && this.participantes[i].cpf != '')
+          considerados.push(this.participantes[i]);
+        else if(!(qtd > 0) && this.participantes[i].cpf != '')
+          considerados.push(this.participantes[i]);
       }
 
       var toText = '';
@@ -192,7 +208,7 @@ if (Meteor.isClient) {
       }
 
       if(toText == ''){
-        window.alert('Nenhum inscrito corresponde a esse número de presenças');
+        window.alert('Nenhum inscrito, com CPF, corresponde a esse número de presenças');
       }else{
         var base64 = btoa(unescape(encodeURIComponent(toText)));
         window.open("data:text/plain;charset=UTF-8;base64,"+base64,"UTF-8 Text");
@@ -261,13 +277,53 @@ Meteor.methods({
       'habilitado': ! curso.habilitado
     }});
   },
-  addParticipante: function(curso, participante){
-    Cursos.update({
-      '_id': curso._id
-    },{$push:{
-      'participantes': participante
-    }});
+  inscreverParticipante: function(cursos, participante, recaptcha){
+    // for(x in cursos)
+    //   Meteor.call('addParticipante', cursos[x], participante, recaptcha, function(err,data){
+    //     if(err && err.error === 'ERROR_FULL'){
+    //       window.alert('Curso ' + cursos[x].nome + 'está cheio :/\n'
+    //       + 'Contate alguém do PET para verificar se há mais vagas')
+    //       return
+    //     }else if(err && err.error === 'ERROR_CAPTCHA'){
+    //       window.alert('Preencha o Captcha corretamente')
+    //       return
+    //     }
+    //   });
+    if(!Meteor.isServer)
+      return
+
+    var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, recaptcha);
+    if( verifyCaptchaResponse.data.success === false )
+      throw new Meteor.Error('ERROR_CAPTCHA','Captcha wasnt filled or was wrongly filled')
+
+    errors = []
+
+    for(x in cursos){
+      curso = cursos[x];
+      try {
+        addParticipante(curso, participante)
+      } catch (err) {
+        if(err.error === 'ERROR_FULL')
+          errors.push(err.error)
+        else
+          throw err;
+      }
+    }
   },
+  // addParticipante: function(curso, participante, recaptcha){
+  //   if(Meteor.isServer){
+  //     var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, recaptcha);
+  //     if( verifyCaptchaResponse.data.success === false ){
+  //       throw new Meteor.Error('ERROR_CAPTCHA','Captcha wasnt filled or was wrongly filled')
+  //     }
+  //
+  //     Cursos.update({
+  //       '_id': curso._id
+  //     },{$push:{
+  //       'participantes': participante
+  //     }});
+  //   }
+  // },
   removeParticipante: function(participante){
     if(!Meteor.call('isAdmin'))
       return;
@@ -277,7 +333,9 @@ Meteor.methods({
       'participantes':{
         '_id': participante._id
       }
-    }});
+    }},{
+      multi: true
+    });
   },
   changeParticipantePresenca: function(participante,value){
     if(!Meteor.call('isAdmin'))
@@ -322,6 +380,7 @@ if (Meteor.isServer) {
       '_id': user._id
     });
   });
+
   Meteor.publish('cursos', function(user){
 
     // TODO: retornar apenas os curso disponíveis e dados como _id, nome e descricao se não for admin
@@ -332,4 +391,12 @@ if (Meteor.isServer) {
       'habilitado': true
     });
   })
+
+  addParticipante = function(curso, participante){
+    Cursos.update({
+      '_id': curso._id
+    },{$push:{
+      'participantes': participante
+    }});
+  }
 }
