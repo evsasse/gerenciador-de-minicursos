@@ -77,11 +77,11 @@ input[type="checkbox"] {
 input[type="checkbox"] + label{
 	margin-left: -0.2em;
 	padding: 0.2em 0 0.2em 1.7em;
-	background: url(img/cb.svg) no-repeat left center;
+	background: url(minicursos/img/cb.svg) no-repeat left center;
 }
 
 input[type="checkbox"]:checked + label{
-	background: url(img/cbChecked.svg) no-repeat left center;
+	background: url(minicursos/img/cbChecked.svg) no-repeat left center;
 }
 
 input[type="submit"]{
@@ -137,37 +137,37 @@ main > .description{
 }
 
 .remove{
-	background: url(img/delete.svg);
+	background: url(minicursos/img/delete.svg);
 	border: 0;
 }
 
 .show-edit{
-	background: url(img/settings.svg);
+	background: url(minicursos/img/settings.svg);
 	border: 0;
 }
 
 .show-participantes{
-	background: url(img/people.svg);
+	background: url(minicursos/img/people.svg);
 	border: 0;
 }
 
 .print{
-	background: url(img/print.svg);
+	background: url(minicursos/img/print.svg);
 	border: 0;
 }
 
 .toText{
-	background: url(img/toText.svg);
+	background: url(minicursos/img/toText.svg);
 	border: 0;
 }
 
 button.disabled{
-	background: url(img/cb.svg);
+	background: url(minicursos/img/cb.svg);
 	border: 0;
 }
 
 button.enabled{
-	background: url(img/cbChecked.svg);
+	background: url(minicursos/img/cbChecked.svg);
 	border: 0;
 }
 
