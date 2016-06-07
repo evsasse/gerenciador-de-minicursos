@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import Minicurso from "./Minicurso.jsx"
+
 export default class InscricaoMinicursos extends Component {
   getMinicursos(){
     //return [];
@@ -16,11 +18,10 @@ export default class InscricaoMinicursos extends Component {
     minicursos = minicursos.map((cur)=>{
       let inativo = (cur.ativo)? '':'inativo';
       return (
-        <label key={ cur._id } className={inativo}>
-          <input type="checkbox" />
-          <h2>{ cur.nome }</h2>
-          <em>{ inativo }</em>
-          <div>{ cur.descricao }</div>
+        <label key={ cur._id }>
+          <Minicurso minicurso={ cur }>
+            <input type="checkbox" />
+          </Minicurso>
         </label>
       )
     })

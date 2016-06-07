@@ -43,24 +43,22 @@ h1{
   padding: 0.2em;
 }
 
-.inscricao-minicursos{
-  margin-bottom: 1em;
-  label{
-    display: block;
-    margin: 0 -1em;
-    padding: 1em;
-    border-bottom: 1px dashed rgba(0,0,0,0.3);
-    &:first-child{
-      border-top: 1px dashed rgba(0,0,0,0.3);
-    }
-    &:hover{
-      background: rgba(0,0,0,0.05);
-    }
-    &.inativo{
-      background: rgba(0,0,0,0.2);
-      color: #888;
-    }
+.minicurso{
+  display: block;
+  margin: -1px -1em 0;
+  padding: 1em;
+  border: 1px dashed rgba(0,0,0,0.3);
+  border-width: 1px 0;
+  &:hover{
+    background: rgba(0,0,0,0.05);
   }
+  &.inativo{
+    background: rgba(0,0,0,0.2);
+    color: #888;
+  }
+}
+
+.inscricao-minicursos{
   h2{
     display: inline;
     margin: 0 0.2em;

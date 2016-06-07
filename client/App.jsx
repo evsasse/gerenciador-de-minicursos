@@ -12,7 +12,7 @@ export default class App extends Component{
     const login = (false)? (
       <a href="/"> logout</a>
     ):(
-      <a href="/login">login</a>
+      <a href="/login"> login</a>
     )
 
     return(
@@ -24,7 +24,6 @@ export default class App extends Component{
           { main }
         </div>
         <footer>
-          <a href="http://petcomputacao.paginas.ufsc.br/" target="page"> pet</a>
           <a href="https://github.com/evsasse/gerenciador-de-minicursos" target="page"> github</a>
           { gerenciar }
           { admin }
