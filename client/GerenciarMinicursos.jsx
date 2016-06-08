@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 
 import Minicurso from "./Minicurso.jsx";
+import EditarMinicurso from "./EditarMinicurso.jsx";
 
 export default class GerenciarMinicursos extends Component{
   render(){
     let { minicursos } = this.context;
     minicursos = minicursos.map(
-      (cur)=>(<Minicurso key={cur._id} minicurso={ cur }/>)
+      (cur)=>(
+        <div key={cur._id}>
+          <Minicurso minicurso={ cur }/>
+          <EditarMinicurso minicurso={ cur }/>
+        </div>
+      )
     )
 
     return(

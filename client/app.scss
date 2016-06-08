@@ -43,6 +43,29 @@ h1{
   padding: 0.2em;
 }
 
+input, textarea{
+  background: #FAFAFA;
+  border: 1px solid #AAA;
+  border-radius: 2px;
+  padding: 0.3em;
+  margin: 5px;
+}
+input{
+  min-width: 10em;
+  font-size: 1.3em;
+  &[type='submit']{
+    background: #FF5151;
+    color: #FAFAFA;
+  }
+  &[type='checkbox']{
+    min-width: 1em;
+  }
+}
+textarea{
+  resize: none;
+  min-width: 15em;
+}
+
 .minicurso{
   display: block;
   margin: -1px -1em 0;
@@ -57,6 +80,17 @@ h1{
     color: #888;
   }
 }
+.editar-minicurso{
+  .editar-minicurso-main{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  textarea{
+    width: 50%;
+    height: 5em;
+  }
+}
 
 .inscricao-minicursos{
   h2{
@@ -69,17 +103,7 @@ h1{
   flex-wrap: wrap;
   input{
     flex:1;
-    min-width: 10em;
-    background: #FAFAFA;
-    border: 1px solid #AAA;
-    border-radius: 2px;
-    font-size: 1.3em;
-    padding: 0.3em;
     margin: 0.5em 1em;
-    &[type='submit']{
-      background: #FF5151;
-      color: #FAFAFA;
-    }
   }
 }
 .inscricao-indisponivel{
