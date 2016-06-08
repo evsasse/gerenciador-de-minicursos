@@ -3,18 +3,8 @@ import React, { Component } from "react";
 import Minicurso from "./Minicurso.jsx"
 
 export default class InscricaoMinicursos extends Component {
-  getMinicursos(){
-    //return [];
-    return [
-      {_id:"1",nome:"Yo",descricao:"Banana",ativo:true},
-      {_id:"2",nome:"Yeaa",descricao:"Laranja",ativo:true},
-      {_id:"3",nome:"Hey",descricao:"Maçã",ativo:true},
-      {_id:"4",nome:"Oy",descricao:"Kiwi",ativo:false}
-    ]
-  }
-
   render(){
-    let minicursos = this.getMinicursos();
+    let minicursos = this.context.minicursos;
     minicursos = minicursos.map((cur)=>{
       let inativo = (cur.ativo)? '':'inativo';
       return (
@@ -50,4 +40,8 @@ export default class InscricaoMinicursos extends Component {
       </div>
     )
   }
+}
+
+InscricaoMinicursos.contextTypes = {
+  minicursos: React.PropTypes.array
 }

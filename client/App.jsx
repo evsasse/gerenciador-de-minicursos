@@ -1,6 +1,15 @@
 import React, {Component} from "react";
+import { composeWithTracker } from 'react-komposer';
 
-export default class App extends Component{
+import { Minicursos } from "../collections.js";
+
+class App extends Component{
+  getChildContext(){
+    return {
+      minicursos: this.props.minicursos
+    }
+  }
+
   render(){
     const main = this.props.children;
     const gerenciar = (true)?(
@@ -33,3 +42,17 @@ export default class App extends Component{
     )
   }
 }
+
+App.childContextTypes = {
+  minicursos: React.PropTypes.array
+}
+
+function composer(props, onData) {
+  const handle = Meteor.subscribe('minicursos');
+  if(handle.ready()) {
+    const minicursos = Minicursos.find({}).fetch();
+    onData(null, {minicursos});
+  };
+};
+
+export default composeWithTracker(composer)(App);
