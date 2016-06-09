@@ -43,7 +43,7 @@ h1{
   padding: 0.2em;
 }
 
-input, textarea{
+input, textarea, button{
   background: #FAFAFA;
   border: 1px solid #AAA;
   border-radius: 2px;
@@ -79,6 +79,9 @@ textarea{
     background: rgba(0,0,0,0.2);
     color: #888;
   }
+  button{
+    float: right;
+  }
 }
 .editar-minicurso{
   .editar-minicurso-main{
@@ -89,6 +92,9 @@ textarea{
   textarea{
     width: 50%;
     height: 5em;
+  }
+  &.editar-esconder{
+    display: none;
   }
 }
 
